@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background-color 1s;
+            background-color: #020924;
+            background-image: url('https://your-image-url.com/space-background.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+        }
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: transparent url('https://your-image-url.com/star-background.png') repeat;
+            background-size: cover;
+            opacity: 0.5;
+            animation: floatStars 30s infinite linear;
+        }
+        
+        @keyframes floatStars {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-200px);
+            }
+        }
+        .sun {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffecb3, #ffca28);
+            box-shadow: 0 0 20px 10px rgba(255, 153, 0, 0.7);
+            position: relative;
+            z-index: 10;
+            animation: pulsate 1.5s infinite alternate;
+        }
+        
+        .shadow {
+            height: 170px;
+            width: 170px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: -10px;
+            left: 0px;
+            opacity: 0.8;
+            filter: blur(2px);
+            animation: moveshadow 10s infinite 1.5s ease-in-out;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 3em;
+            color: #ff9800;
+            text-shadow: 0 0 20px rgba(255, 153, 0, 0.7), 0 0 30px rgba(255, 153, 0, 0.7);
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 20px rgba(255, 153, 0, 0.7), 0 0 30px rgba(255, 153, 0, 0.7);
+            }
+            100% {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.9);
+            }
+        }
+        .quiz-container {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+        
+        .quiz-option {
+            background-color: #ff9800;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            color: #fff;
+            text-align: center;
+        }
+        
+        .quiz-option:hover {
+            transform: scale(1.05);
+            background-color: #ff5722;
+        }
+        
+        #start-quiz {
+            background-color: #ff9800;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        #start-quiz:hover {
+            background-color: #ff5722;
+        }
+        li {
+            background-color: #b3e5fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: transform 0.3s, background-color 0.3s;
+            position: relative;
+        }
+        
+        li::before {
+            content: '⭐';
+            position: absolute;
+            left: -30px;
+            top: 10px;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+        
+        li:hover {
+            transform: scale(1.05);
+            background-color: #81d4fa;
+        }
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #3f51b5;
+            color: white;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+            animation: startrail 5s linear infinite;
+        }
+        
+        @keyframes startrail {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+                                                        
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background-color 1s;
+            background-color: #e0f7fa;
+            background-image: url('https://your-image-url.com/space-background.jpg');
+            background-size: cover;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 3em;
+            color: #ff9800;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .sun-container {
+            position: relative;
+            height: 150px;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sun {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+            background-color: #fcd25b;
+            border: 3px solid #fcd25b;
+            position: relative;
+            z-index: 10;
+            animation: pulsate 1.5s infinite alternate;
+        }
+
+        @keyframes pulsate {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        .shadow {
+            height: 170px;
+            width: 170px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: -10px;
+            left: 0px;
+            animation: moveshadow 10s infinite 1.5s;
+        }
+
+        @keyframes moveshadow {
+            0% {
+                transform: translateX(150px);
+                background-color: rgba(255, 255, 255, 0.9);
+            }
+
+            50% {
+                transform: translateX(-10px);
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+
+            100% {
+                transform: translateX(-170px);
+                background-color: rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        .info-section,
+        .quiz-container {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            width: 100%;
+            max-width: 1000px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+            transition: transform 0.3s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-section h2 {
+            color: #3f51b5;
+            font-size: 2em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff9800;
+            padding-bottom: 5px;
+            transition: color 0.3s;
+        }
+
+        .info-section h2:hover {
+            color: #ff5722;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #b3e5fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        li:hover {
+            transform: scale(1.05);
+            background-color: #81d4fa;
+        }
+
+        a {
+            color: #ff9800;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #ff5722;
+        }
+
+       
+
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #3f51b5;
+            color: white;
+            width: 100%;
+            text-align: center;
+        }
+
+        .stars {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: transparent url('https://your-image-url.com/star-background.png') repeat;
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .sun {
+                height: 100px;
+                width: 100px;
+            }
+
+            .info-section,
+            .quiz-container {
+                width: 95%;
+            }
+        }
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background-color 1s;
+            background-color: #020924;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: transparent url('https://your-image-url.com/star-background.png') repeat;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .sun-container {
+            position: relative;
+            height: 150px;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .sun {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffecb3, #ffca28);
+            box-shadow: 0 0 20px 10px rgba(255, 153, 0, 0.7);
+            position: relative;
+            z-index: 10;
+            animation: pulsate 1.5s infinite alternate;
+        }
+
+        .shadow {
+            height: 170px;
+            width: 170px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: -10px;
+            left: 0px;
+            opacity: 0.8;
+            filter: blur(2px);
+            animation: moveshadow 10s infinite 1.5s ease-in-out;
+        }
+
+        @keyframes moveshadow {
+            0% {
+                transform: translateX(170px);
+            }
+
+            50% {
+                transform: translateX(0);
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+
+            100% {
+                transform: translateX(-170px);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 3em;
+            color: #ff9800;
+            text-shadow: 0 0 20px rgba(255, 153, 0, 0.7), 0 0 30px rgba(255, 153, 0, 0.7);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 20px rgba(255, 153, 0, 0.7), 0 0 30px rgba(255, 153, 0, 0.7);
+            }
+
+            100% {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        .info-section {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            width: 100%;
+            max-width: 1000px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        body {
+            background-color: white;
+            animation: dayToNight 10s infinite 1.5s;
+        }
+        
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: block;
+        }
+        
+        .sun {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+            background-color: #fcd25b;
+            border: 3px solid #fcd25b;
+        }
+        
+        .shadow {
+            height: 170px;
+            width: 170px;
+            border-radius: 50%;
+            background-color: white;
+            top: -5px;
+            left: 0px;
+            animation: moveshadow 10s infinite 1.5s;
+        }
+        
+        @keyframes moveshadow {
+            0% {
+                transform: translateX(150px);
+                background-color: white;
+            }
+            50% {
+                transform: translateX(-10px);
+                background-color: black;
+            }
+            100% {
+                transform: translateX(-170px);
+                background-color: white;
+            }
+        }
+        
+        @keyframes dayToNight {
+            0% {
+                background-color: white;
+            }
+            50% {
+                background-color: black;
+            }
+            100% {
+                background-color: white;
+            }
+        }
+    </style>
+    <title>Solar Eclipse Experience</title>
+</head>
+
+<body>
+    <h1>Solar Eclipse Experience</h1>
+
+    <div class="sun-container">
+        <div class="sun">
+            <div class="shadow"></div>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h2>What is a Solar Eclipse?</h2>
+        <p>A solar eclipse occurs when the Moon passes between the Earth and the Sun, blocking all or part of the Sun's light. There are three types of solar eclipses: total, partial, and annular.</p>
+    </div>
+
+    <div class="info-section">
+        <h2>Upcoming Solar Eclipses</h2>
+        <ul class="eclipse-calendar">
+            <li><strong>Date:</strong> April 8, 2024 - Total Solar Eclipse</li>
+            <li><strong>Date:</strong> October 2, 2024 - Annular Solar Eclipse</li>
+        </ul>
+    </div>
+
+    <div class="info-section">
+        <h2>Viewing Safety Tips</h2>
+        <p>Always use eclipse glasses or solar filters to protect your eyes when viewing a solar eclipse. Regular sunglasses are not safe!</p>
+    </div>
+
+    <div class="map-container">
+        <iframe src="https://www.nasa.gov/sites/default/files/thumbnails/image/smap2.png" width="600" height="400"
+            title="Eclipse Path Map" style="border: none;"></iframe>
+    </div>
+
+    <div class="info-section">
+        <h2>Fun Facts about Solar Eclipses</h2>
+        <ul>
+            <li>The last total solar eclipse occurred on December 14, 2020.</li>
+            <li>In ancient times, eclipses were often seen as omens.</li>
+            <li>During a total solar eclipse, day turns into night for a few minutes.</li>
+        </ul>
+    </div>
+
+    <!-- <div class="quiz-container">
+        <h2 style="color: #020924;">Solar Eclipse Quiz</h2>
+        <div class="quiz-question" id="question-1">1. What is a solar eclipse?
+            <div class="quiz-option" data-answer="true">A. The Moon passes between the Earth and the Sun.</div>
+            <div class="quiz-option" data-answer="false">B. The Earth passes between the Moon and the Sun.</div>
+            <div class="quiz-option" data-answer="false">C. The Sun passes between the Earth and the Moon.</div>
+        </div>
+        <div class="quiz-question" id="question-2">2. How often do solar eclipses occur?
+            <div class="quiz-option" data-answer="false">A. Every year</div>
+            <div class="quiz-option" data-answer="true">B. 2 to 5 times a year</div>
+            <div class="quiz-option" data-answer="false">C. Once every 10 years</div>
+        </div>
+        <div class="quiz-question" id="question-3">3. What should you wear to safely view a solar eclipse?
+            <div class="quiz-option" data-answer="true">A. Eclipse glasses</div>
+            <div class="quiz-option" data-answer="false">B. Regular sunglasses</div>
+            <div class="quiz-option" data-answer="false">C. No protection needed</div>
+        </div>
+        <div class="result" id="result"></div>
+        <button id="start-quiz">Start Quiz</button>
+    </div> -->
+
+    <footer>
+        &copy; 2024 Solar Eclipse Experience | Created with love and enthusiasm!
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const shadow = document.querySelector('.shadow');
+            const stars = document.querySelector('.stars');
+
+            shadow.addEventListener('animationiteration', () => {
+                stars.style.opacity = 0;
+            });
+
+            shadow.addEventListener('animationprogress', () => {
+                const shadowPosition = shadow.getBoundingClientRect().left;
+                const sunWidth = document.querySelector('.sun').offsetWidth;
+                const opacityValue = 1 - Math.abs(shadowPosition) / sunWidth;
+
+                stars.style.opacity = opacityValue > 0 ? opacityValue : 0;
+            });
+        });
+        const starsContainer = document.createElement('div');
+starsContainer.className = 'stars';
+document.body.appendChild(starsContainer);
+
+const numberOfStars = 200; // Number of stars to create
+for (let i = 0; i < numberOfStars; i++) {
+    const star = document.createElement('div');
+    star.style.position = 'absolute';
+    star.style.width = '2px';
+    star.style.height = '2px';
+    star.style.backgroundColor = 'white';
+    star.style.borderRadius = '50%';
+    star.style.top = ${Math.random() * 100}vh;
+    star.style.left = ${Math.random() * 100}vw;
+    star.style.opacity = Math.random();
+    starsContainer.appendChild(star);
+}
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.info-section');
+            
+            const revealOnScroll = () => {
+                sections.forEach((section) => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    if (sectionTop < window.innerHeight) {
+                        section.style.opacity = 1;
+                        section.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+        
+            window.addEventListener('scroll', revealOnScroll);
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const starsContainer = document.createElement('div');
+            starsContainer.className = 'stars';
+            document.body.appendChild(starsContainer);
+
+            const numberOfStars = 200; // Number of stars to create
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.position = 'absolute';
+                star.style.borderRadius = '50%';
+                star.style.backgroundColor = '#fff';
+                star.style.opacity = Math.random(); // Random opacity
+                star.style.width = ${Math.random() * 3 + 1}px; // Random width
+                star.style.height = star.style.width; // Keep it circular
+                star.style.top = ${Math.random() * 100}vh; // Random vertical position
+                star.style.left = ${Math.random() * 100}vw; // Random horizontal position
+                starsContainer.appendChild(star);
+            }
+
+            // Quiz functionality
+            const quizContainer = document.querySelector('.quiz-container');
+            const quizQuestions = quizContainer.querySelectorAll('.quiz-question');
+            const resultDisplay = document.getElementById('result');
+            let currentQuestionIndex = 0;
+
+            document.getElementById('start-quiz').addEventListener('click', () => {
+                currentQuestionIndex = 0;
+                resultDisplay.style.display = 'none';
+                quizQuestions.forEach((question, index) => {
+                    question.style.display = index === 0 ? 'block' : 'none';
+                });
+            });
+
+            quizQuestions.forEach((question) => {
+                const options = question.querySelectorAll('.quiz-option');
+                options.forEach((option) => {
+                    option.addEventListener('click', () => {
+                        const isCorrect = option.getAttribute('data-answer') === 'true';
+                        if (isCorrect) {
+                            option.style.backgroundColor = '#4caf50'; // Green for correct answer
+                        } else {
+                            option.style.backgroundColor = '#f44336'; // Red for incorrect answer
+                        }
+                        // Move to next question
+                        currentQuestionIndex++;
+                        setTimeout(() => {
+                            if (currentQuestionIndex < quizQuestions.length) {
+                                quizQuestions.forEach((q, index) => {
+                                    q.style.display = index === currentQuestionIndex ? 'block' : 'none';
+                                });
+                            } else {
+                                showResult();
+                            }
+                        }, 1000);
+                    });
+                });
+            });
+
+            function showResult() {
+                quizQuestions.forEach((question) => {
+                    question.style.display = 'none';
+                });
+                const score = [...quizContainer.querySelectorAll('.quiz-option')]
+                    .filter(option => option.style.backgroundColor === 'rgb(76, 175, 80)').length; // Count correct answers
+                resultDisplay.textContent = You answered ${score} out of ${quizQuestions.length} questions correctly!;
+                resultDisplay.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

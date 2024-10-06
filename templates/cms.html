@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coronal Mass Ejection Simulation</title>
+    <style>
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --animDuration: 200ms;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #121212;
+            color: white;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 25px;
+            height: 100vh;
+            background-color: rgb(49, 23, 95);
+            z-index: 2;
+            position: sticky;
+            left: 0;
+            top: 0;
+            transition: var(--animDuration);
+        }
+
+        .sidebar:hover {
+            width: 300px;
+        }
+
+        .sidebar:hover .nav>li {
+            font-size: 1rem;
+            border-bottom: 1px solid white;
+            width: auto;
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .sidebar:hover #nav-title {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .nav>li {
+            list-style: none;
+            cursor: pointer;
+            color: white;
+            border-bottom: 1px solid white;
+            transition: var(--animDuration);
+            padding: 0.5rem 1rem;
+            width: 0px;
+            height: 2rem;
+        }
+
+        .nav>li:hover {
+            color: gray;
+            background-color: white;
+        }
+
+        .nav>li,
+        #nav-title {
+            opacity: 0;
+            pointer-events: none;
+            word-break: keep-all;
+        }
+
+        .content {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        h1 {
+            color: #ffdd00; /* Changed header color */
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        #nav-title {
+            color: white;
+            text-transform: uppercase;
+            font-size: .88rem;
+            letter-spacing: 1.2pt;
+            font-weight: 700;
+            height: 3rem;
+            margin: 1rem;
+        }
+
+        .info-box {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem auto;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        #cmeCanvas {
+            display: block;
+            margin: 0 auto;
+            height: 60vh;
+            z-index: 11;
+        }
+
+        .text-bar {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-size: 1.1rem;
+            z-index: 10;
+        }
+
+        .animated-bottom {
+            position: fixed;
+            bottom: 40px; /* Space above the text bar */
+            left: 0;
+            width: 100%;
+            height: 50px; /* Height of the animated section */
+            background: linear-gradient(270deg, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0));
+            animation: move 3s linear infinite;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Styles for the animated particles */
+        $particles: 400;
+        $ring-size: 80px;
+
+        .outer-ring {
+            margin-left: -15px;
+            width: 300px;
+            height: 300px;
+            border-radius: 100%;
+            background: #000;
+            position: absolute;
+            box-shadow: 0px 0px 8px 3px #ffa500;
+        }
+
+        .ring {
+            margin-left: -15px;
+            position: relative;
+            width: 0px;
+            height: 0px;
+            background: #f5f77d;
+            transition: all 0.2s linear;
+            transform-style: preserve-3d;
+            animation: ringRotate 15s linear infinite;
+            filter: blur(10px);
+        }
+
+        @keyframes ringRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+
+        @for $i from 1 through $particles {
+            $z: (random(90) * 4deg);
+            $y: (random(90) * 4deg);
+
+            .particle:nth-child(#{$i}) {
+                border-radius: 100%;
+                transform-style: preserve-3d;
+                animation: birth#{$i} 4s infinite;
+                animation-delay: ($i * 0.01s);
+                background: #ffa500;
+            }
+
+            @keyframes birth#{$i} {
+                10% {
+                    opacity: 1;
+                }
+
+                20% {
+                    transform: rotateZ($y) rotateX($z) translate3d(150px, 0, 0);
+                }
+
+                60% {
+                    transform: rotateZ($y) rotateX($z) translate3d(150px, 0, 0) translateZ(($ring-size * 3));
+                }
+
+                90% {
+                    transform: rotateZ($y) rotateX($z) translate3d(180px, 0, 0) translateZ(($ring-size * 3));
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <!-- <div class="sidebar">
+            <div id="nav-title">Navigation</div>
+            <ul class="nav">
+                <li id="btnInicio">Ani-1</li>
+                <li id="btnHerramientas">Ani-2</li>
+                <li id="btnPortapapeles">Ani-3</li>
+                <li id="btnExtensiones">Ani-4</li>
+            </ul>
+        </div> -->
+        <div class="content">
+            <h1>Coronal Mass Ejection Simulation</h1>
+            <canvas id="cmeCanvas"></canvas>
+            <div id="infoBox" class="info-box">
+                <p>Current CME Status: <span id="cmeStatus">Active</span></p>
+                <p>Current Shockwave Radius: <span id="shockwaveRadius">0</span></p>
+                <p>Number of Particles: <span id="particleCount">0</span></p>
+                <p><strong>What is a CME?</strong><br>
+                A Coronal Mass Ejection (CME) is a significant release of plasma and magnetic field from the solar corona. CMEs can disturb the solar wind and cause geomagnetic storms on Earth, impacting satellites, communications, and power grids.</p>
+            </div>
+            <div class="outer-ring">
+                <div class="ring">
+                    <!-- Generate particles dynamically in the script -->
+                </div>
+            </div>
+        </div>
+        <div id="textBar" class="text-bar">Animation starting...</div>
+        <div class="animated-bottom"></div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('cmeCanvas');
+        const ctx = canvas.getContext('2d');
+        const infoBox = document.getElementById('infoBox');
+        const cmeStatus = document.getElementById('cmeStatus');
+        const shockwaveRadiusElement = document.getElementById('shockwaveRadius');
+        const particleCountElement = document.getElementById('particleCount');
+        const textBar = document.getElementById('textBar');
+
+        canvas.width = window.innerWidth - 250; // Full width minus sidebar
+        canvas.height = window.innerHeight * 0.6; // Reduced height for space for info box
+
+        let particles = [];
+        const maxParticles = 100;
+        const particleCount = 5;
+        const sunX = canvas.width / 2;
+        const sunY = canvas.height / 2;
+        const sunRadius = 50;
+        const earthX = canvas.width / 2 + 200;
+        const earthY = canvas.height / 2;
+        const earthRadius = 20;
+        let shockwaveRadius = 0;
+        const shockwaveSpeed = 2;
+
+        function createParticles(x, y) {
+            for (let i = 0; i < particleCount; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 2 + 2; // Random speed for particles
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: Math.random() * 5 + 2, // Random size for particles
+                    lifetime: 0,
+                });
+            }
+        }
+
+        function drawSun() {
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, sunRadius, 0, Math.PI * 2, false);
+            ctx.fillStyle = '#FFDD00';
+            ctx.shadowColor = 'rgba(255, 221, 0, 0.5)';
+            ctx.shadowBlur = 30;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawEarth() {
+            ctx.beginPath();
+            ctx.arc(earthX, earthY, earthRadius, 0, Math.PI * 2, false);
+            ctx.fillStyle = '#00BFFF';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawParticles() {
+            particles.forEach((particle, index) => {
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = '#FFA500'; // Orange color for particles
+                ctx.fill();
+                ctx.closePath();
+
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                particle.lifetime += 1;
+
+                if (particle.lifetime > 100) {
+                    particles.splice(index, 1); // Remove particle if lifetime exceeds
+                }
+            });
+        }
+
+        function drawShockwave() {
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, shockwaveRadius, 0, Math.PI * 2, false);
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+            ctx.closePath();
+
+            shockwaveRadius += shockwaveSpeed;
+            shockwaveRadiusElement.innerText = shockwaveRadius.toFixed(1);
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawSun();
+            drawEarth();
+            drawShockwave();
+            drawParticles();
+
+            if (shockwaveRadius >= 200) { // Reset after reaching max radius
+                shockwaveRadius = 0;
+                cmeStatus.innerText = "Active";
+                createParticles(sunX, sunY);
+            }
+
+            particleCountElement.innerText = particles.length;
+
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+</body>
+
+</html>
